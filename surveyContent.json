@@ -1,0 +1,17 @@
+
+{
+    "rues": [
+        null,
+        "Rue des Saules",
+        "Impasse des Charmes",
+        "Rue des Chênes",
+        "Rue des Frênes"
+    ],
+    "questionList": [   
+        {
+            "id": 1,
+            "question": "Voulez-vous passer la rue de la Gouerie en double sens ?",
+            "reponsesPossibles": [ null, "Oui", "Non" ]
+        }
+    ]
+}

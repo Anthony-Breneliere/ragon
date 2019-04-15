@@ -1,32 +1,56 @@
 extends layout
 
 block content
-  h1 #{title}
+
+  h3 #{title}
+  
+  #identification.container-fluid
+  
+    form(action="/identify", method="post").form
+      #email.form-group
+        label(for='email') Email
+        input(name='email', type='email', placeholder="Saisissez votre adresse email").form-control
+
+        br
+        label(for='rue') Sélectionnez votre rue
+        select(id='rue').form-control
+          each r in rues
+            option( value=r ) #{r}
+
+        br
+        button.btn(type="submit") Valider
   br
 
   form(action="/completetask", method="post")
+
     table.table.table-striped.table-bordered
       tr
-        td Name
-        td Category
-        td Date
-        td Complete
-      if (typeof tasks === "undefined")
+        td Question
+        td Reponse
+      if (typeof questionList === "undefined")
         tr
           td
       else
-        each task in tasks
+        - console.debug( questionList )
+        each q in questionList
           tr
-            td #{task.name}
-            td #{task.category}
-            - var date  = new Date(task.date);
-            - var day   = date.getDate();
-            - var month = date.getMonth() + 1;
-            - var year  = date.getFullYear();
-            td #{month + "/" + day + "/" + year}
+            td #{q.question}
             td
-              input(type="checkbox", name="#{task.id}", value="#{!task.completed}", checked=task.completed)
-    button.btn(type="submit") Update tasks
+              select(id="#{q.id}", value="#{r.reponse}").form-control
+                each r in q.reponsesPossibles
+                  - console.debug( r )
+                  - var lowerRes = r != null ? r.toLowerCase() : null;
+                  option(value=lowerRes) #{r}
+                    
+            //- td #{task.category}
+            //- - var date  = new Date(task.date);
+            //- - var day   = date.getDate();
+            //- - var month = date.getMonth() + 1;
+            //- - var year  = date.getFullYear();
+            //- td #{month + "/" + day + "/" + year}
+            //- td
+            //-   input(type="checkbox", name="#{task.id}", value="#{!task.completed}", checked=task.completed)
+    button.btn(type="submit") Envoyer les reponses
   hr
   form.well(action="/addtask", method="post")
     label Item Name:
